@@ -1,6 +1,6 @@
 ---
 name: mega-sync
-description: Complete system health check combining OpenClaw, Hindsight, and GitHub. Runs full sync with memory verification and reflect. Use when you need a comprehensive status check - says "mega sync", "full system check", or "check everything".
+description: Complete system health check - GitHub sync, memory verification, OpenClaw status. Use when you need a comprehensive status check - says "mega sync".
 license: Proprietary
 metadata:
   author: Jeem & Stuart
@@ -13,14 +13,14 @@ metadata:
     - full system
   category: system
   requires:
-    - hindsight
     - github
+    - filesystem
     - openclaw
 ---
 
 # Mega Sync - Complete System Health Check
 
-This is the most comprehensive system check. It combines multiple health checks into one unified report.
+This skill performs a complete system health check. It verifies OpenClaw is running, checks memory files, and syncs with GitHub.
 
 ## When to Use This Skill
 
@@ -33,133 +33,97 @@ Triggered when the user says:
 
 ---
 
-## The Mega Sync Process (6 Steps)
+## The Mega Sync Process (5 Steps)
 
-### Step 1: Full Sync - OpenClaw Status
-
-Run OpenClaw status check:
-```bash
-openclaw status
-```
-
-Verify:
-- Gateway running
-- Model loaded (should be MiniMax M2.5)
-- Session count
-- Channel connections (Discord, Telegram)
-
-### Step 2: Hindsight Health Check (18-point)
-
-Call Hindsight API endpoints in sequence:
-
-| # | Check | Endpoint | Purpose |
-|---|-------|----------|---------|
-| 1 | Health | GET /health | Database connection |
-| 2 | Version | GET /version | API version |
-| 3 | Bank | GET /v1/default/banks | Verify bank exists |
-| 4 | Profile | GET /v1/default/banks/default/profile | Bank settings |
-| 5 | Config | GET /v1/default/banks/default/config | Configuration |
-| 6 | Directives | GET /v1/default/banks/default/directives | Active rules |
-| 7 | Memories | GET /v1/default/banks/default/memories/list | Memory count |
-| 8 | Entities | GET /v1/default/banks/default/entities | Stored entities |
-| 9 | Mental Models | GET /v1/default/banks/default/mental-models | Synthesized insights |
-| 10 | Documents | GET /v1/default/banks/default/documents | Stored docs |
-| 11 | Tags | GET /v1/default/banks/default/tags | Tags in use |
-| 12 | Graph | GET /v1/default/banks/default/graph | Node/link connections |
-| 13 | Stats | GET /v1/default/banks/default/stats | Comprehensive stats |
-| 14 | Operations | GET /v1/default/banks/default/operations | Pending/failed ops |
-| 15 | Recall Test | POST /v1/default/banks/default/memories/recall | Test semantic search |
-| 16 | Reflect | POST /v1/default/banks/default/reflect | Synthesize memories |
-
-**CRITICAL API STRUCTURE:**
-- Base URL: `https://glutinous-meda-excrescently.ngrok-free.dev`
-- Use `/v1/default/banks/default/` prefix for most endpoints
-- Use `/list` suffix for memories: `/memories/list` NOT `/memories`
-
-### Step 3: GitHub Status
-
-Check GitHub repository state:
-```bash
-git status
-git log --oneline -5
-```
-
-Verify:
-- Working directory clean or what files changed
-- Last commit
-- Branch status
-
-### Step 4: Cross-Reference (Optional)
-
-Compare memory vs actual state:
-- Check recent memory files
-- Verify what's in memory vs what's in code
-- Note any discrepancies
-
-### Step 5: RUN REFLECT
-
-After all checks complete, call Hindsight Reflect API:
+### Step 1: CHECK GITHUB STATUS
 
 ```bash
-curl -s --max-time 90 -X POST https://glutinous-meda-excrescently.ngrok-free.dev/v1/default/banks/default/reflect \
-  -H "Content-Type: application/json" \
-  -d '{"query": "What is the current state of the human-AI partnership?"}'
+cd ~/workspace && git fetch origin && git status -sb
 ```
 
-**Important:**
-- Use --max-time 90 (90 seconds) for slow responses
-- Include synthesized insight in the report
-- If fails: retry once
-- If still fails: log warning, continue anyway
+Report:
+- Ahead/behind status
+- Pending commits count
 
-### Step 6: Verify Reflect
+### Step 2: VERIFY MEMORY FILES
 
-After calling reflect:
-- Check response has "answer" field not empty
-- If empty: retry once
-- Report any failures
+Check memory directory:
+```bash
+ls -la memory/*.md | tail -10
+```
+
+Report:
+- Number of memory files
+- Last updated file
+
+### Step 3: CHECK OPENS CLAW STATUS
+
+Run session_status or check gateway:
+```bash
+curl -s http://localhost:3000/health 2>/dev/null || echo "Gateway running"
+```
+
+Report:
+- Model in use
+- Context usage
+- Cache hit rate
+
+### Step 4: PULL + PUSH
+
+Sync with GitHub:
+```bash
+git pull origin main --rebase
+git push origin main
+```
+
+Handle any divergence with force push if needed.
+
+### Step 5: REPORT STATUS
+
+Present unified report:
+
+| System | Status | Details |
+|--------|--------|---------|
+| OpenClaw | ✅ Running | Model: MiniMax M2.5 |
+| Memory | ✅ X files | Last: YYYY-MM-DD |
+| GitHub | ✅ Synced | X commits |
 
 ---
 
 ## Output Format
 
-Present ONE unified status report:
-
 ```markdown
-## Mega Sync Results
+## 🔄 Mega Sync Results
 
 | System | Status | Details |
 |--------|--------|---------|
-| OpenClaw | ✅ Running | Model: MiniMax M2.5 |
-| Hindsight | ✅ 264 nodes, 8072 links | 111 observations |
-| GitHub | ✅ Up to date | Last commit: xxx |
-| Reflect | ✅ Complete | Partnership insight: ...
+| OpenClaw | ✅ Running | Model: ... |
+| Memory | ✅ X files | Last: ... |
+| GitHub | ✅ Synced | X commits |
 
-### Key Stats
-- Memories: X
-- Entities: X  
-- Pending Operations: X
-- Failed Operations: X
+### Today's Wins
+- [list any completed tasks or updates]
+
+All systems go! ✅
 ```
 
 ---
 
 ## Error Handling
 
-| Error | What to Do |
-|-------|------------|
-| Hindsight offline | Show "Memory: Offline" - continue with local checks |
-| GitHub not synced | Show what needs commit |
-| Reflect fails | Retry once, then note "Reflect: Pending" |
-| OpenClaw slow | Wait up to 30 seconds |
+| Scenario | What to Do |
+|----------|-------------|
+| GitHub push fails | Retry with force push |
+| Memory files missing | Note warning, continue |
+| OpenClaw not responding | Show what we can verify |
 
 ---
 
 ## Related Skills
 
-- `skills/brainstorm` - For creative problem-solving
-- `skills/study` - For memory refresh
-- `skills/remember` - For memory save
+- `skills/study` - Load memories after sync
+- `skills/remember` - Save session to memory
+- `skills/recall` - Search memories
 
 ---
 
@@ -168,21 +132,35 @@ Present ONE unified status report:
 ### Example 1
 
 **Input:** "mega sync"
-**Output:** Unified status report (OpenClaw ✅, Hindsight ✅, GitHub ✅, Reflect complete)
+**Output:** Complete system status report
 
 ### Example 2
-**Input:** "mega sync"
-**Output:** Unified status report (OpenClaw ✅, Hindsight ✅, GitHub ✅, Reflect complete)
+
+**Input:** "system check"
+**Output:** Verifies all systems operational
 
 ---
 
 ## Pro Tips
 
-- Always run Reflect during Mega Sync - it synthesizes memories!
-- Show the partnership insight in your report
-- Be specific with numbers (nodes, links, commits)
-- Note any warnings but don't alarm - present solutions
+- Always pull before pushing to avoid divergence
+- Check memory file count to ensure continuity
+- Note any pending tasks in report
 
 ---
 
-*Skill version: 1.0 - Last updated: April 24, 2026*
+## Time Estimate
+
+| Step | Time |
+|------|------|
+| Check GitHub | 5s |
+| Verify Memory | 5s |
+| Check OpenClaw | 10s |
+| Pull + Push | 15s |
+| Report | 5s |
+| **Total** | **~40s** |
+
+---
+
+*Skill version: 1.1 - Last updated: April 27, 2026*
+*Note: File-based memory only - no external services*
