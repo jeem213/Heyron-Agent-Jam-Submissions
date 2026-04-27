@@ -4,7 +4,7 @@ description: Search and retrieve information from memory. Use when you want to f
 license: MIT
 metadata:
   author: Jeem & Stuart
-  version: "1.1"
+  version: "1.2"
   triggers:
     - recall
     - search memory
@@ -23,6 +23,27 @@ Search your entire memory instantly.
 3. **Retrieve results** - Find relevant info
 4. **Present findings** - Show what was found
 
-## Example
+## Examples
 
-"recall Jeem's birthday" → Found: April 20!
+### Example 1
+
+**Input:** "recall Jeem's birthday"
+**Output:** Found: April 20!
+
+### Example 2
+
+**Input:** "search memory for Agent Jam"
+**Output:** Found in memory/2026-04-26.md: Competition entry, $250 prize, deadline May 2
+
+### Example 3
+
+**Input:** "find preferences about voice"
+**Output:** Found: Jeem=Will, Sara=Davis
+
+---
+
+## Notes
+
+- Use grep for fast searching: `grep -r "query" memory/`
+- Check both file names and content
+- Present results with source file and line
