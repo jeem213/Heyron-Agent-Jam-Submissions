@@ -8,6 +8,7 @@ Gives your Heyron agent memory capabilities:
 - **Study** - Load all memories at conversation start
 - **Remember** - Save conversations to memory + GitHub
 - **Recall** - Search memories instantly
+- **Mega Sync** - Complete system health check + sync
 
 ## How to Install
 
