@@ -1,21 +1,21 @@
 ---
 name: sync
-description: Save conversations to memory with REQUIRED tags. Use when you want to save a session - says "sync".
+description: Save conversations to memory with REQUIRED tags + auto-suggest. Use when you want to save a session - says "sync".
 license: Proprietary
 metadata:
   author: Jeem & Stuart
-  version: "1.0"
+  version: "1.1"
   triggers:
     - sync
     - sync now
   category: memory
 ---
 
-# Sync - Save to Memory with Tags
+# Sync - Save to Memory with Tags + Auto-Suggest
 
 **⚠️ CRITICAL: TAGS ARE REQUIRED!**
 
-This skill saves sessions to memory files with mandatory tagging. Every save MUST include a tag.
+This skill saves sessions to memory files with mandatory tagging + auto-suggestion of additional tags based on conversation topics.
 
 ---
 
@@ -28,7 +28,7 @@ Triggered when the user says:
 
 ---
 
-## The Sync Process (6 Steps)
+## The Sync Process (7 Steps)
 
 ### Step 1: PARSE TAGS (REQUIRED!)
 
@@ -45,14 +45,41 @@ Triggered when the user says:
 | `sync #team` | `#team` |
 | `sync` | `#session` (DEFAULT) |
 
-### Step 2: CREATE MEMORY FILE
+### Step 2: ANALYZE CONVERSATION (REQUIRED!)
+
+**⚠️ THIS IS MANDATORY - DO NOT SKIP!**
+
+After parsing the user's tag, analyze the conversation to find topics and suggest additional tags:
+
+1. Scan recent conversation for keywords:
+   - Sports teams → #ravens, #knicks, #lions, #blackhawks
+   - Projects → #project, #agent-jam, #memory-kit
+   - People → #team, #sara, #austin, #janet
+   - Personal → #personal, #family, #hobbies
+   - Work → #work, #it-support
+   - Money → #business, #money, #startup
+
+2. Compile list of suggested tags (max 3)
+   - Only suggest if different from user's tag
+   - Prioritize the most relevant topic
+
+3. Ask user if they want to add suggestions:
+   ```
+   "I noticed you talked about [topics]. Want me to add [#tag1 #tag2] too?"
+   ```
+
+**If user says YES:** Add suggested tags to the tag list
+**If user says NO:** Keep only the original tag
+**If user provides MORE tags:** Add those too
+
+### Step 3: CREATE MEMORY FILE
 
 Create file with today's date:
 ```bash
 memory/YYYY-MM-DD.md
 ```
 
-### Step 3: ADD SESSION CONTENT
+### Step 4: ADD SESSION CONTENT
 
 Add to file:
 - **What** - What happened
@@ -60,27 +87,27 @@ Add to file:
 - **Topics** - Topics discussed
 - **Tasks** - Open todos
 - **Notes** - Additional notes
-- **Tags** - The tag from Step 1
+- **Tags** - All tags from Step 1 + Step 2
 
-### Step 4: GIT PULL
+### Step 5: GIT PULL
 
 Before pushing, pull latest:
 ```bash
 cd ~/workspace && git pull --rebase
 ```
 
-### Step 5: GIT PUSH
+### Step 6: GIT PUSH
 
 Push to GitHub:
 ```bash
 git add memory/ YYYY-MM-DD.md && git commit -m "Memory: Session" && git push
 ```
 
-### Step 6: CONFIRM
+### Step 7: CONFIRM
 
 Report to user:
 - File saved
-- Tag used
+- All tags used
 - GitHub status
 
 ---
@@ -101,6 +128,20 @@ Report to user:
 - `#ravens` - Ravens conversation
 - `#hobbies` - Hobbies
 - `#work` - Work stuff
+- `#agent-jam` - Agent Jam competition
+- `#memory` - Memory system topics
+
+---
+
+## Auto-Suggest Examples
+
+| Conversation | Suggested Tags |
+|--------------|----------------|
+| "Talked about Knicks game" | #knicks |
+| "Heyron Agent Jam meeting with Austin" | #agent-jam, #team |
+| "Business ideas for money" | #business, #money |
+| "Sara's birthday planning" | #personal, #family |
+| "Printer at work not working" | #work, #it-support |
 
 ---
 
@@ -110,10 +151,8 @@ Report to user:
 ## 🔄 Sync Complete
 
 **Saved:** memory/2026-04-30.md
-**Tag:** #knicks
+**Tags:** #session #agent-jam #team
 **GitHub:** ✅ Synced
-
-Tagged with: #knicks
 ```
 
 ---
@@ -126,6 +165,7 @@ Tagged with: #knicks
 | File exists | Append to existing file |
 | Git conflict | Resolve, then push |
 | Tag without # | Add # prefix |
+| No suggestions | Just use user's tag |
 
 ---
 
@@ -133,7 +173,7 @@ Tagged with: #knicks
 
 - `skills/study` - Load memories by tag
 - `skills/mega-sync` - System health check
-- `skills/recall` - Search memories
+- `skills/tagger` - Dedicated tag analysis skill (future)
 
 ---
 
@@ -142,6 +182,7 @@ Tagged with: #knicks
 | Step | Time |
 |------|------|
 | Parse tags | 5s |
+| Analyze + suggest | 10s |
 | Create file | 5s |
 | Add content | 1 min |
 | Git pull/push | 15s |
@@ -150,5 +191,5 @@ Tagged with: #knicks
 
 ---
 
-*Skill version: 1.0 - Last updated: April 30, 2026*
-*Note: Tags required - uses #session as default*
+*Skill version: 1.1 - Last updated: April 30, 2026*
+*Note: v1.1 - Added mandatory auto-suggest step*
