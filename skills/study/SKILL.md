@@ -1,10 +1,10 @@
 ---
 name: study
-description: Load all memories and context at start of conversation. Use when you need to catch up - says "study".
+description: Load all memories, with optional tag filtering. Use when you need to catch up - says "study".
 license: Proprietary
 metadata:
   author: Jeem & Stuart
-  version: "2.0"
+  version: "2.1"
   triggers:
     - study
     - refresh memory
@@ -17,17 +17,31 @@ metadata:
 
 One word reads all memory files and gets you up to speed instantly.
 
+**Optional:** Add a tag to filter memories: `study #knicks`
+
 ## When to Use This Skill
 
 Triggered when the user says:
 - "study"
+- "study #tagname"
 - "refresh memory"
 - "catch me up"
 - "what's new"
 
 ---
 
-## The Study Process (5 Steps)
+## The Study Process (6 Steps)
+
+### Step 0: PARSE TAG (If Provided)
+
+**If user says `study #tagname`:**
+1. Extract the tag (including # prefix)
+2. Use memory_search to find files with that tag
+3. Filter to only those files
+
+**If user says just `study`:**
+1. No tag filter - load ALL memories
+2. Continue with normal process
 
 ### Step 1: LIST MEMORY FILES
 
