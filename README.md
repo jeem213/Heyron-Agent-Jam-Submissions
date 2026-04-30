@@ -5,27 +5,22 @@ Portable memory skills for Heyron containers. Drop-in ready!
 ## What It Does
 
 Gives your Heyron agent memory capabilities:
-- **Study** - Load all memories at conversation start
-- **Remember** - Save conversations to memory + GitHub
-- **Recall** - Search memories instantly
+- **Study** - Load all memories at conversation start, with optional tag filtering
+- **Sync** - Save conversations to memory with mandatory tags
 - **Mega Sync** - Complete system health check + sync
 
 ## How to Install
 
 1. Copy this folder to your Heyron container:
    ```bash
-   cp -r heyron-memory-kit/skills ~/workspace/skills/
+   cp -r skills ~/workspace/skills/
    ```
 
-2. Copy config if needed:
-   ```bash
-   cp heyron-memory-kit/config/memory.yaml ~/workspace/config/
-   ```
-
-3. Start using!
-   - Say "study" to load memories
-   - Say "remember" to save
-   - Say "recall [query]" to search
+2. Start using!
+   - Say "study" to load all memories
+   - Say "study #tagname" to load memories with specific tag
+   - Say "sync #tagname" to save with a tag
+   - Say "mega sync" for system health check
 
 ## Example
 
@@ -33,12 +28,23 @@ Gives your Heyron agent memory capabilities:
 You: study
 → Loads all memories, preferences, context
 
-You: remember  
-→ Saves conversation to memory + GitHub
+You: study #f0wcus
+→ Loads only memories tagged with #f0wcus
 
-You: recall Jeem's birthday
-→ Finds: April 20!
+You: sync #project
+→ Saves conversation with #project tag
+
+You: mega sync
+→ Checks GitHub, memory files, skills status
 ```
+
+## Tag System
+
+Use tags to organize and find memories easily:
+- `sync #knicks` → Saves with #knicks tag
+- `study #knicks` → Finds all #knicks memories
+- `sync #team` → Saves with #team tag
+- `study #team` → Finds all #team memories
 
 ## Requirements
 
