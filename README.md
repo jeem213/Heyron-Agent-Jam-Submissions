@@ -2,7 +2,7 @@
 
 A comprehensive AI agent memory system built for the Heyron Agent Jam competition. This system provides persistent, structured memory management with priority tagging and cross-referencing.
 
-## 📚 Core Skills
+## 📚 Core Skills (3 Skills)
 
 ### 1. Study (Load Memories)
 Loads and analyzes memory files with priority filtering.
@@ -64,12 +64,12 @@ Complete system health check with statistics.
 - **ABORT Trigger** - Emergency stop
 - **Rate Limits** - Max 3/min Discord/Telegram
 - **Error Handling** - Retry strategies
+- **Double-Check** - Verify important decisions with user
 
-### Memory Rules (NEW!)
-- **Pre-Response Recall** - Search memory before recall questions
+### Memory-Specific Rules (NEW!)
+- **Pre-Response Check** - Search memory before answering questions about past conversations
 - **Priority Tags** - Always tag entries #important or #routine
 - **Cross-Reference Links** - Link related topics
-- **Double-Check** - Verify important decisions with user
 
 ---
 
@@ -78,9 +78,9 @@ Complete system health check with statistics.
 ```
 /
 ├── skills/
-│   ├── study/          # Load memories
-│   ├── sync/           # Save memories  
-│   └── mega-sync/      # Health check
+│   ├── study/          # Load memories (v2.2)
+│   ├── sync/           # Save memories (v1.2)
+│   └── mega-sync/      # Health check (v1.3)
 ├── memory/
 │   ├── 2026-04-29.md  # Daily entries
 │   └── 2026-04-30.md

@@ -4,18 +4,14 @@ description: Complete system health check - GitHub sync, memory verification, Op
 license: Proprietary
 metadata:
   author: Jeem & Stuart
-  credits: "Original concept by Jeem & Stuart"
-  version: "1.1"
+  version: "1.3"
   triggers:
     - mega sync
     - system check
     - check everything
     - full system
+    - status
   category: system
-  requires:
-    - github
-    - filesystem
-    - openclaw
 ---
 
 # Mega Sync - Complete System Health Check
@@ -56,17 +52,29 @@ Report:
 - Number of memory files
 - Last updated file
 
+### Step 2.5: TAG STATISTICS
+
+Count priority tags across all memory files:
+```bash
+echo "Important entries:" && grep -c "#important\|#decision" memory/*.md
+echo "Routine entries:" && grep -c "#routine" memory/*.md
+```
+
+Report:
+- #important / #decision count
+- #routine count
+
 ### Step 3: CHECK OPENS CLAW STATUS
 
 Run session_status or check gateway:
 ```bash
-curl -s http://localhost:3000/health 2>/dev/null || echo "Gateway running"
+openclaw status
 ```
 
 Report:
 - Model in use
+- Gateway status
 - Context usage
-- Cache hit rate
 
 ### Step 4: PULL + PUSH
 
@@ -90,22 +98,12 @@ Present unified report:
 
 ---
 
-## Output Format
+## Memory Rules (Applied)
 
-```markdown
-## 🔄 Mega Sync Results
-
-| System | Status | Details |
-|--------|--------|---------|
-| OpenClaw | ✅ Running | Model: ... |
-| Memory | ✅ X files | Last: ... |
-| GitHub | ✅ Synced | X commits |
-
-### Today's Wins
-- [list any completed tasks or updates]
-
-All systems go! ✅
-```
+This skill follows the Memory Rules from SOUL.md:
+1. **Priority Tags** - Reports #important vs #routine counts
+2. **Cross-Reference Links** - Notes related entries
+3. **Pre-Response Recall** - Verified before responding
 
 ---
 
@@ -116,36 +114,6 @@ All systems go! ✅
 | GitHub push fails | Retry with force push |
 | Memory files missing | Note warning, continue |
 | OpenClaw not responding | Show what we can verify |
-
----
-
-## Related Skills
-
-- `skills/study` - Load memories after sync
-- `skills/remember` - Save session to memory
-- `skills/recall` - Search memories
-
----
-
-## Examples
-
-### Example 1
-
-**Input:** "mega sync"
-**Output:** Complete system status report
-
-### Example 2
-
-**Input:** "system check"
-**Output:** Verifies all systems operational
-
----
-
-## Pro Tips
-
-- Always pull before pushing to avoid divergence
-- Check memory file count to ensure continuity
-- Note any pending tasks in report
 
 ---
 
@@ -162,5 +130,5 @@ All systems go! ✅
 
 ---
 
-*Skill version: 1.1 - Last updated: April 27, 2026*
-*Note: File-based memory only - no external services*
+*Skill version: 1.3 - Last updated: May 1, 2026*
+*Note: Added tag statistics reporting*
