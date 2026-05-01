@@ -91,7 +91,7 @@ git pull origin main --rebase
 ## Memory Rules (Applied)
 
 This skill follows the Memory Rules from SOUL.md:
-1. **Pre-Response Recall** - Always check memory before answering recall questions
+1. **Pre-Response Check** - Always check memory before answering past conversation questions
 2. **Priority Tags** - Shows #important entries first
 3. **Cross-Reference Links** - Notes related topics
 

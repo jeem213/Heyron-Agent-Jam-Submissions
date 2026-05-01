@@ -103,7 +103,7 @@ Present unified report:
 This skill follows the Memory Rules from SOUL.md:
 1. **Priority Tags** - Reports #important vs #routine counts
 2. **Cross-Reference Links** - Notes related entries
-3. **Pre-Response Recall** - Verified before responding
+3. **Pre-Response Check** - Verified before responding
 
 ---
 
