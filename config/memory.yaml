@@ -1,0 +1,22 @@
+# Heyron Memory System Configuration
+# This file configures the memory system for the Heyron Agent Jam competition
+
+memory:
+  enabled: true
+  storage_path: "memory"
+  file_pattern: "YYYY-MM-DD.md"
+  max_files: 365
+  
+tags:
+  required: true
+  priority:
+    - important
+    - routine
+  custom:
+    - decision
+    - task
+    
+sync:
+  auto_sync: true
+  github_backup: true
+  commit_message: "Memory: Auto-sync"
