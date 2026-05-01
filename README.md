@@ -1,72 +1,154 @@
-# Heyron Memory Kit
+# Heyron Memory System
 
-Portable memory skills for Heyron containers. Drop-in ready!
+A comprehensive AI agent memory system built for the Heyron Agent Jam competition. This system provides persistent, structured memory management with priority tagging and cross-referencing.
 
-## What It Does
+## 📚 Core Skills
 
-Gives your Heyron agent memory capabilities:
-- **Study** - Load all memories at conversation start, with optional tag filtering
-- **Sync** - Save conversations to memory with mandatory tags + auto-suggest
-- **Mega Sync** - Complete system health check + sync
+### 1. Study (Load Memories)
+Loads and analyzes memory files with priority filtering.
 
-## How to Install
+**Trigger Words:** `study`, `refresh memory`, `catch me up`, `what's new`
 
-1. Copy this folder to your Heyron container:
-   ```bash
-   cp -r skills ~/workspace/skills/
-   ```
+**Features:**
+- Loads all memory files from last 7 days
+- Priority filtering (#important vs #routine)
+- Cross-reference detection
+- Preferences from USER.md and SOUL.md
 
-2. Start using!
-   - Say "study" to load all memories
-   - Say "study #tagname" to load memories with specific tag
-   - Say "sync #tagname" to save with a tag (auto-suggests more!)
-   - Say "mega sync" for system health check
+**Version:** 2.2 (May 1, 2026)
 
-## Example
+---
+
+### 2. Sync (Save Memories)
+Saves conversations to memory with mandatory tagging.
+
+**Trigger Words:** `sync`, `sync now`
+
+**Features:**
+- Mandatory priority tags (#important or #routine)
+- Cross-reference checking
+- Auto-suggest additional tags
+- GitHub backup integration
+
+**Version:** 1.2 (May 1, 2026)
+
+---
+
+### 3. Mega Sync (Health Check)
+Complete system health check with statistics.
+
+**Trigger Words:** `mega sync`, `system check`, `check everything`
+
+**Features:**
+- OpenClaw status check
+- Memory file verification
+- GitHub sync status
+- Tag statistics (#important vs #routine counts)
+
+**Version:** 1.3 (May 1, 2026)
+
+---
+
+## 🧠 Memory Rules (14 Total)
+
+### Core Rules (7)
+1. **Stop Button** - Freeze on "stop", "wait", "ABORT"
+2. **Money Check** - Confirm before financial actions
+3. **Privacy** - Don't store passwords/credentials
+4. **Persona Stay** - Always be Stuart (capybara)
+5. **Uncertainty** - Admit when you don't know
+6. **Time First** - Calculate Regina time (UTC-6)
+7. **Escalate** - Ask before doing if something feels wrong
+
+### Operational Rules
+- **ABORT Trigger** - Emergency stop
+- **Rate Limits** - Max 3/min Discord/Telegram
+- **Error Handling** - Retry strategies
+
+### Memory Rules (NEW!)
+- **Pre-Response Recall** - Search memory before recall questions
+- **Priority Tags** - Always tag entries #important or #routine
+- **Cross-Reference Links** - Link related topics
+- **Double-Check** - Verify important decisions with user
+
+---
+
+## 📁 File Structure
 
 ```
-You: study
-→ Loads all memories, preferences, context
-
-You: study #f0wcus
-→ Loads only memories tagged with #f0wcus
-
-You: sync #project
-→ I notice you talked about X, Y. Add #tags too?
-→ Saves conversation with tags
-
-You: mega sync
-→ Checks GitHub, memory files, skills status
+/
+├── skills/
+│   ├── study/          # Load memories
+│   ├── sync/           # Save memories  
+│   └── mega-sync/      # Health check
+├── memory/
+│   ├── 2026-04-29.md  # Daily entries
+│   └── 2026-04-30.md
+├── config/
+│   └── memory.yaml     # Configuration
+├── README.md           # This file
+└── templates/
+    └── memory-entry.md # Template for entries
 ```
 
-## Tag System
+---
 
-Use tags to organize and find memories easily:
-- `sync #knicks` → Saves with #knicks tag
-- `study #knicks` → Finds all #knicks memories
-- `sync #team` → Saves with #team tag
-- `study #team` → Finds all #team memories
+## 🏆 Competition-Ready Features
 
-### Auto-Suggest (Sync v1.1+)
+- **Persistent Memory** - Survives restarts via local files + GitHub
+- **Priority System** - #important vs #routine for quick filtering
+- **Cross-References** - Links related topics for knowledge graph
+- **Auto-Sync** - Automatic GitHub backup on every session
+- **Health Monitoring** - Mega Sync reports system status
 
-When you save with Sync, it automatically analyzes your conversation and suggests relevant tags:
+---
 
-| Conversation | I Suggest |
-|--------------|----------|
-| Talked about Knicks | #knicks |
-| Agent Jam with team | #agent-jam, #team |
-| Money/business ideas | #business, #money |
-| Sara's birthday | #personal, #family |
-| Work IT issues | #work, #it-support |
+## 🚀 Usage
 
-Just say "yes" to add suggested tags, or "no" to keep just yours!
+### Load Memories
+```
+User: "study"
+Stuart: Loads all recent memories, presents summary
+```
 
-## Requirements
+### Save Session
+```
+User: "sync #team"
+Stuart: Saves with #team tag, checks for cross-refs, pushes to GitHub
+```
 
-- Heyron container
-- GitHub account (for backups)
-- Filesystem access
+### System Check
+```
+User: "mega sync"
+Stuart: Full status report with tag statistics
+```
 
-## License
+---
 
-MIT - See LICENSE file
+## 📝 Tag System
+
+| Tag | When to Use |
+|-----|-------------|
+| #important | Key decisions, tasks, milestones |
+| #routine | Regular check-ins, casual chat |
+| #decision | Explicit decisions (also #important) |
+| #task | Follow-up tasks (also #important) |
+
+---
+
+## 🔧 Configuration
+
+Memory files stored in: `memory/YYYY-MM-DD.md`
+
+GitHub sync: Automatic on every sync
+
+---
+
+## 📜 License
+
+Proprietary - Heyron Agent Jam Submission
+
+---
+
+*Last Updated: May 1, 2026*
+*Version: 1.0*
