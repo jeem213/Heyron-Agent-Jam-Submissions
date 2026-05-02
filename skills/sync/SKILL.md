@@ -54,7 +54,7 @@ After parsing the user's tag, analyze the conversation to find topics and sugges
 1. Scan recent conversation for keywords:
    - Sports teams → #ravens, #knicks, #lions, #blackhawks
    - Projects → #project, #agent-jam, #memory-kit
-   - People → #team, #sara, #austin, #janet
+   - People → #team, #team, #austin, #janet
    - Personal → #personal, #family, #hobbies
    - Work → #work, #it-support
    - Money → #business, #money, #startup
@@ -162,7 +162,7 @@ Report to user:
 | "Talked about Knicks game" | #knicks |
 | "Heyron Agent Jam meeting with Austin" | #agent-jam, #team |
 | "Business ideas for money" | #business, #money |
-| "Sara's birthday planning" | #personal, #family |
+| "Dinner planning" | #personal, #family |
 | "Printer at work not working" | #work, #it-support |
 
 ---
