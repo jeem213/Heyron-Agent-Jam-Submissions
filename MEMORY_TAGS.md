@@ -26,7 +26,7 @@ Use these tags in ALL memory entries:
 
 ### Private Tags (Use Sparingly)
 - `#private` - Sensitive business info
-- `#secret` - TOP SECRET research
+- `- removed from public version` - TOP SECRET research
 
 ## Tagging Rules
 
